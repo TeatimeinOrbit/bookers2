@@ -2,45 +2,10 @@
 <div class='container px-5 px-sm-0'>
   <div class='row'>
     <div class='col-md-3'>
-        <h2>User info</h2>
 
-        <table class="table">
-          <tbody>
-            <tr>
-              <%= image_tag @user.get_profile_image(100,100) %>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th><%= @user.name %></th>
-            </tr>
-            <tr>
-              <th>Introduction</th>
-              <th><%= @user.introduction %></th>
-            </tr>
-          </tbody>
-        </table>
+       <%= render 'lists', user: @user, book: @book %>
 
-        <div class="btn btn-outline-secondary btn-block col-md-12">
-          <%= link_to edit_user_path(@user.id) do %>
-            <i class="fas fa-user-cog"></i>
-          <% end %>
-        </div>
-
-        <h2>New Book</h2>
-        <%= form_with model: @book do |f| %>
-        <div class="field row">
-          <%= f.label :Title %>
-          <%= f.text_field :title, class:"col-md-12" %>
-        </div>
-        <div class="field row">
-          <%= f.label :Opinion %>
-          <%= f.text_area :body, class:"col-md-12"%>
-        </div>
-        <div class="actions row">
-          <%= f.submit 'Create Book', class:"btn btn-success col-md-5" %>
-        </div>
-        <% end %>
-      </div>
+    </div>
 
     <div class="col-md-1">
     </div>
@@ -59,8 +24,19 @@
         <% @books.each do |book| %>
           <tbody>
             <tr>
-              <td><%= book.title %></td>
-              <td><%= book.body %></td>
+              <td>
+                <%= link_to user_path(book.user_id) do %>
+                  <%= image_tag book.user.get_profile_image(100,100) %>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to book_path(book.id) do %>
+                  <%= book.title %>
+                <% end %>
+              </td>
+              <td>
+                <%= book.body %>
+              </td>
             </tr>
           </tbody>
         <% end %>

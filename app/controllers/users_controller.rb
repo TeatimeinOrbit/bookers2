@@ -20,8 +20,11 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.update(user_params)
-    redirect_to user_path(@user.id), notice: 'You have updated user successfully.'
+    if @user.update(user_params)
+      redirect_to user_path(@user.id), notice: 'You have updated user successfully.'
+    else
+      render :edit
+    end
   end
 
   private
@@ -34,7 +37,7 @@ class UsersController < ApplicationController
   def ensure_correct_user
     @user = User.find_by(id: params[:id])
     return unless @user.id != current_user.id
-    redirect_to root_path
+    redirect_to user_path(current_user.id)
   end
 
 
